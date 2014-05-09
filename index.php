@@ -1,6 +1,6 @@
 <?php
 
-set_error_handler(E_ALL);
+error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 require_once 'app/Router.php';
