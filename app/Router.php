@@ -9,6 +9,10 @@ class Router {
 	private function __construct() {}
 	private function __clone() {}
 
+	/**
+	 * 
+	 * @return Router
+	 */
 	public static function instance() {
 		if (!self::$instance) {
 			self::$instance = new Router();
@@ -39,8 +43,9 @@ class Router {
 		$running = true;
 
 		$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-		$base = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-		if (strpos($url, $base) === 0) {
+		$base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+
+		if (strlen($base) && strpos($url, $base) === 0) {
 			$url = substr($url, strlen($base));
 		}
 		foreach ($this->routes as $pattern => $callback) {
