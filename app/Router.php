@@ -34,6 +34,14 @@ class Router {
 		}
 	}
 
+	public static function base($addSlash = true) {
+		return rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/') . ($addSlash ? '/' : '');
+	}
+
+	public static function url($url) {
+		return str_replace('//', '/', self::base(true) . $url);
+	}
+
 	public function run() {
 		static $running = false;
 		if ($running) {
@@ -43,7 +51,7 @@ class Router {
 		$running = true;
 
 		$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-		$base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+		$base = self::base(false);
 
 		if (strlen($base) && strpos($url, $base) === 0) {
 			$url = substr($url, strlen($base));
@@ -57,4 +65,5 @@ class Router {
 
 		return $this->notFound();
 	}
+
 }
