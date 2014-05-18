@@ -31,7 +31,8 @@ $router->add('/blog/([0-9a-z\-]+)/?', function($slug) use ($router) {
 	}
 
 	if (!$found) {
-		$router->notFound();
+		// $router->notFound();
+		Router::redirect('/');
 	}
 
 });

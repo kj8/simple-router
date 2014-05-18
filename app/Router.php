@@ -41,6 +41,11 @@ class Router {
 	public static function url($url) {
 		return str_replace('//', '/', self::base(true) . $url);
 	}
+	
+	public static function redirect($url, $http_response_code = 301) {
+		header(self::base(true) . $url, true, $http_response_code);
+		exit;
+	}
 
 	public function run() {
 		static $running = false;
