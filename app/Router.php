@@ -43,7 +43,7 @@ class Router {
 	}
 	
 	public static function redirect($url, $http_response_code = 301) {
-		header(self::base(true) . $url, true, $http_response_code);
+		header('Location: ' . self::base(true) . $url, true, $http_response_code);
 		exit;
 	}
 
