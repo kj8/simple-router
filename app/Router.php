@@ -86,13 +86,17 @@ class Router {
 		foreach ($this->routes as $pattern => $callback) {
 			if (preg_match($pattern, $url, $params)) {
 				array_shift($params);
+
 				if (!is_callable($callback)) {
 					$callback = explode(':', $callback);
+
 					if (count($callback) == 2) {
 						$controller = $callback[0];
 						$action = $callback[1];
-						$c = new $controller();
-						return $c->$action();
+
+						$class = new $controller();
+						$reflectionMethod = new ReflectionMethod($class, $action);
+						return $reflectionMethod->invokeArgs($class, array_values($params));
 					}
 				} else {
 					return call_user_func_array($callback, array_values($params));
